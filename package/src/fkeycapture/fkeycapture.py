@@ -1,4 +1,5 @@
 import termios, fcntl, sys
+global fd,flags_save,attrs_save
 fd = sys.stdin.fileno()
 flags_save = fcntl.fcntl(fd, fcntl.F_GETFL)
 attrs_save = termios.tcgetattr(fd)
