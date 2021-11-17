@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/fkeycapture/__init__.py
+src/fkeycapture/fkeycapture.py
+src/fkeycapture_Firepup650.egg-info/PKG-INFO
+src/fkeycapture_Firepup650.egg-info/SOURCES.txt
+src/fkeycapture_Firepup650.egg-info/dependency_links.txt
+src/fkeycapture_Firepup650.egg-info/top_level.txt
