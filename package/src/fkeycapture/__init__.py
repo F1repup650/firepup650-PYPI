@@ -36,3 +36,13 @@ def get(keycount=1,bytes=False):
   if bytes == True:
     key = key.encode()
   return key
+def getnum(keycount=1):
+  internalcounter=0
+  keys = []
+  while internalcounter != keycount:
+    key = get()
+    if key == "0" or key == "1" or key == "2" or key == "3" or key == "4" or key == "5" or key == "6" or key == "7" or key == "8" or key == "9":
+      keys.append(key)
+      internalcounter += 1
+  key = "".join(keys)
+  return key

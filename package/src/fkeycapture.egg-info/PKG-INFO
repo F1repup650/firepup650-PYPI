@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: fkeycapture
-Version: 1.0.6
+Version: 1.0.7
 Summary: A way to capture keystrokes
 Home-page: https://github.com/Alexander-Maples/fkeycapture
 Author: Firepup650
@@ -14,11 +14,12 @@ Description: # fkeycapture
         1. (Default) Recive key as a string
         2. Recive key as bytes
         #### How to Use:
-        1. from fkeycapture import get
+        1. from fkeycapture import get, getnum
         2. Use it like this 
         : get([number of keys to capture],[if you want bytes output, make this 'True'])
-        ###### v.1.0.6:
-        Finally made the package usable.
+        3. To use the getnum method use like this: getnum([number of key to capture])
+        ###### v.1.0.7:
+        Added the getnum method
         
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
