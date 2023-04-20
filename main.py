@@ -1,6 +1,8 @@
-#from build import build
-#build()
-import package.src.fkeycapture as fkey
-print(fkey.get(5))
-while 1:
-  print(fkey.getnum())
+import os
+from build import build
+if os.environ["REPL_OWNER"] == "Firepup650":
+  build()
+  exit()
+else:
+  import package.src.firepup650 as fp650
+  fp650.e("No demo yet!")
