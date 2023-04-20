@@ -10,5 +10,4 @@ def build():
     edit()
   cmd("clear")
   print("Run these commands next: \n  cd package\n  python3 -m build\n  python3 -m twine upload -r pypi dist/*")
-# __token__
   cmd("bash")

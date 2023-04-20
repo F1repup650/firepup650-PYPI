@@ -1,5 +1,5 @@
 """Firepup650's PYPI Package"""
-import os, sys
+import os, sys, termios, tty, time
 import random as r
 import fkeycapture as fkey
 def clear() -> None:
@@ -79,3 +79,39 @@ def gp(keycount: int = 1, chars: list = ["1" ,"2"], bytes: bool = False) -> str 
     return keys
   else:
     return keys.encode()
+def printt(text: str, delay: float = 0.1, newline: bool = True) -> None:
+  """# Function: printt
+    Print out animated text!
+  # Inputs:
+    text: str - Text to print (could technicaly be a list)
+    delay: float - How long to delay between characters, defaults to 0.1
+    newline: bool - Wether or not to add a newline at the end of the text, defaults to True
+  
+  # Returns:
+    None
+  
+  # Raises:
+    None"""
+  # Store the current terminal settings
+  original_terminal_settings = termios.tcgetattr(sys.stdin)
+  # Change terminal settings to prevent key interruptions
+  tty.setcbreak(sys.stdin)
+  for char in text:
+    print(char, end='', flush=True)
+    time.sleep(delay)
+  if newline:
+    print()
+  # Restore the original terminal settings
+  termios.tcsetattr(sys.stdin, termios.TCSADRAIN,original_terminal_settings)
+def sleep(seconds: float = 0.5) -> None:
+  """# Function: sleep
+    Calls `time.sleep(seconds)`
+  # Inputs:
+    seconds: float - How long to sleep for (in seconds), defaults to 0.5
+  
+  # Returns:
+    None
+  
+  # Raises:
+    None"""
+  time.sleep(seconds)
