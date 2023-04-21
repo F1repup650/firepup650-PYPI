@@ -2,6 +2,7 @@
 import os, sys, termios, tty, time
 import random as r
 import fkeycapture as fkey
+from collections import Sequence
 def clear() -> None:
   """# Function: clear
     Clears the screen
@@ -115,3 +116,24 @@ def sleep(seconds: float = 0.5) -> None:
   # Raises:
     None"""
   time.sleep(seconds)
+def rseed(seed: any = None, version: int = 2) -> None:
+  """# Function: rseed
+    reseed the random number generator
+  # Inputs:
+    seed: any - The seed, defaults to None
+    version: int - Version of the seed (1 or 2), defaults to 2
+  
+  # Returns:
+    None
+  
+  # Raises:
+    None"""
+  r.seed(seed, version)
+def robj(sequence: Sequence[object]) -> object:
+  """# Function: robj
+    Returns a random object from the provided sequence
+  # Input:
+    sequence: Sequence[object] - Any valid sequence
+  
+  # """
+  r.choice(sequence)
