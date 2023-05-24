@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "fkeycapture"
-version = "0.1.0"
+name = "firepup650"
+version = "1.0.2"
 description = "Replit source"
 authors = ["Firepup650"]
 
@@ -9,6 +9,9 @@ python = "^3.8"
 pip = "^23.1"
 build = "^0.10.0"
 twine = "^4.0.2"
+fkeycapture = "^1.2.3"
+black = "^23.3.0"
+keyrings-alt = "^4.2.0"
 
 [tool.poetry.dev-dependencies]
 
