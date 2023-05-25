@@ -12,6 +12,8 @@ twine = "^4.0.2"
 fkeycapture = "^1.2.3"
 black = "^23.3.0"
 keyrings-alt = "^4.2.0"
+fpsql = "^1.0.1"
+urllib3 = "1.26.16"
 
 [tool.poetry.dev-dependencies]
 
