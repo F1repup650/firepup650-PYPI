@@ -1,6 +1,8 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 #### Change log:
+###### v.1.0.27:
+Renames many methods, old names are still avalible for backwards compatiblity however. Also, SQL was moved to it's own package entirely.
 ###### v.1.0.26:
 Adds `remove_prefix` and `remove_suffix`, name mangles internal variables in `sql`, fixes a bug in `console.warn`, adds `__VERSION__`, `__NEW__`, and `__LICENSE__`, adds many aliases for `help()`.
 ###### v.1.0.25:

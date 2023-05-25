@@ -1,1 +1,2 @@
 fkeycapture>=1.0.0
+fpsql>=1.0.0

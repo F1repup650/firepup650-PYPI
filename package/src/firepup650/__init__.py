@@ -13,8 +13,8 @@ def alias(Function):
     return f
   return decorator
 
-__VERSION__ = "1.0.26"
-__NEW__ = "Adds `remove_prefix` and `remove_suffix`, name mangles internal variables in `sql`, fixes a bug in `console.warn`, adds `__VERSION__`, `__NEW__`, and `__LICENSE__`, adds many aliases for interactive help."
+__VERSION__ = "1.0.27"
+__NEW__ = "Renames many methods, old names are still avalible for backwards compatiblity however. Also, SQL was moved to it's own package entirely."
 __LICENSE__ = "MIT"
 
 def clear(ascii: bool = False) -> None:
@@ -394,47 +394,48 @@ class bcolors:
         fRED = fFAIL
 
 
-replit_cursor = f"{bcolors.REPLIT}{bcolors.RESET}"
+replitCursor = f"{bcolors.REPLIT}{bcolors.RESET}"
+replit_cursor = replitCursor
 
 Oinput = input
 cast = TypeVar("cast")
 
 
-def input(prompt: str = "", cast: Type = str, bad_cast_message: str = "") -> cast:
+def input(prompt: str = "", cast: Type = str, badCastMessage: str = "") -> cast:
     """# Function: input
       Displays your `prompt`, supports casting by default, with handling!
     # Inputs:
       prompt: str - The prompt, defaults to ""
       cast: Type - The Type to cast the input to, defaults to str
-      bad_cast_message: str - The message to dispaly upon reciving input that can't be casted to `cast`, can be set to `"None"` to not have one, defaults to f"That is not a vaild {cast.__name__}, please try again."
+      badCastMessage: str - The message to dispaly upon reciving input that can't be casted to `cast`, can be set to `"None"` to not have one, defaults to f"That is not a vaild {cast.__name__}, please try again."
 
     # Returns:
       cast - The user's input, casted to `cast`
 
     # Raises:
       None"""
-    if not bad_cast_message:
-        bad_cast_message = f"That is not a vaild {cast.__name__}, please try again."
+    if not badCastMessage:
+        badCastMessage = f"That is not a vaild {cast.__name__}, please try again."
     ret = ""
     while ret == "":
         try:
             ret = cast(Oinput(prompt))
             break
         except ValueError:
-            if bad_cast_message != "None":
-                print(bad_cast_message)
+            if badCastMessage != "None":
+                print(badCastMessage)
     return ret
 
 
-def replit_input(
-    prompt: str = "", cast: Type = str, bad_cast_message: str = ""
+def replitInput(
+    prompt: str = "", cast: Type = str, badCastMessage: str = ""
 ) -> cast:
-    """# Function: replit_input
+    """# Function: replitInput
       Displays your `prompt` with the replit cursor on the next line, supports casting by default, with handling!
     # Inputs:
       prompt: str - The prompt, defaults to ""
       cast: Type - The Type to cast the input to, defaults to str
-      bad_cast_message: str - The message to dispaly upon reciving input that can't be casted to `cast`, can be set to "No message" to not have one, defaults to f"That is not a vaild {cast.__name__}, please try again."
+      badCastMessage: str - The message to dispaly upon reciving input that can't be casted to `cast`, can be set to "No message" to not have one, defaults to f"That is not a vaild {cast.__name__}, please try again."
 
     # Returns:
       cast - The user's input, casted to `cast`
@@ -443,8 +444,9 @@ def replit_input(
       None"""
     if prompt:
         print(prompt)
-    return input(f"{replit_cursor} ", cast, bad_cast_message)
+    return input(f"{replitCursor} ", cast, badCastMessage)
 
+replit_input = replitInput
 
 def cprint(text: str = "") -> None:
     """# Function: cprint
@@ -471,8 +473,8 @@ def cprint(text: str = "") -> None:
     print(f"{color}{text}")
 
 
-def flush_print(text: str = ""):
-    """# Function: flush_print
+def flushPrint(text: str = ""):
+    """# Function: flushPrint
       Prints and flushes the specified `text`.
     # Inputs:
       text: str - The text to print, defaults to ""
@@ -484,20 +486,21 @@ def flush_print(text: str = ""):
       None"""
     print(text, end="", flush=True)
 
+flush_print = flushPrint
 
 class ProgramWarnings(UserWarning):
     """Warnings Raised for user defined Warnings in `console.warn` by default."""
 
 
 class AssertationWarning(UserWarning):
-    """Warnings Raised for assertion errors in `console._assert()`."""
+    """Warnings Raised for assertion errors in `console.assert_()`."""
 
 
 class console:
     """Limited Functionality version of JavaScript's console functions"""
 
-    _counters = {"default": 0}
-    _warnings = []
+    __counters__ = {"default": 0}
+    __warnings__ = []
 
     @alias(print)
     def log(*args, **kwargs) -> None:
@@ -535,12 +538,12 @@ class console:
         flush: whether to forcibly flush the stream."""
         print(*args, **kwargs)
 
-    def warn(warning: any, _class: Optional[Type[Warning]] = ProgramWarnings) -> None:
+    def warn(warning: any, class_: Optional[Type[Warning]] = ProgramWarnings) -> None:
         """# Function: console.warn
           Issue a warning
         # Inputs:
           warning: any - The variable to use as a warning
-          _class: class - The class to raise the warning from, defaults to ProgramWarnings
+          class_: class - The class to raise the warning from, defaults to ProgramWarnings
 
         # Returns:
           None
@@ -548,11 +551,11 @@ class console:
         # Raises:
           None"""
         ind = 1
-        while warning in console._warnings:
+        while warning in console.__warnings__:
             warning = f"{warning}({ind})"
             ind += 1
-        console._warnings.append(warning)
-        ww(warning, _class, 2)
+        console.__warnings__.append(warning)
+        ww(warning, class_, 2)
 
     def error(*args, **kwargs) -> None:
         """print(value, ..., sep=' ', end='\n', file=sys.stderr, flush=False)
@@ -564,8 +567,8 @@ class console:
         flush: whether to forcibly flush the stream."""
         print(bcolors.FAIL, *args, bcolors.RESET, file=sys.stderr, **kwargs)
 
-    def _assert(condition: bool, message: str = "Assertion Failed") -> None:
-        """# Function: console._assert
+    def assert_(condition: bool, message: str = "Assertion Failed") -> None:
+        """# Function: console.assert_
           Makes an assertion check
         # Inputs:
           condition: bool - The condition to run an assert check on
@@ -590,11 +593,11 @@ class console:
 
         # Raises:
           None"""
-        if console._counters[label]:
-            console._counters[label] += 1
+        if console.__counters__[label]:
+            console.__counters__[label] += 1
         else:
-            console._counters[label] = 1
-        print(f"{label}: {console._counters[label]}")
+            console.__counters__[label] = 1
+        print(f"{label}: {console.__counters__[label]}")
 
     def countReset(label: str = "default") -> None:
         """# Function: console.countReset
@@ -607,7 +610,7 @@ class console:
 
         # Raises:
           None"""
-        console._counters[label] = 0
+        console.__counters__[label] = 0
 
     @alias(clear)
     def clear(ascii: bool = False) -> None:
@@ -624,168 +627,11 @@ class console:
         clear(ascii)
 
 
-class sql:
-    """# Class: sql
-    Easy SQL manipulation"""
-
-    def addTable(self, tableName: str) -> None:
-        """# Function: sql.addTable
-          Adds a table to the database
-        # Inputs:
-          tableName: str - The name of the table to create
-
-        # Returns:
-          None
-
-        # Raises:
-          None"""
-        self.__con.execute(
-            f"""CREATE TABLE IF NOT EXISTS "{tableName}"
-                (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                value TEXT NOT NULL)"""
-        )
-        self.__con.commit()
-        self.__table = tableName
-
-    def __init__(self, filename: str):
-        """# Function: sql.__init__
-          Constructs an SQL instance
-        # Inputs:
-          filename: str - The name of the database file to connect to (or `:memory:`)
-
-        # Returns:
-          None
-
-        # Raises:
-          None"""
-        if filename.endswith(".db") or filename == ":memory:":
-            self.__db = filename
-        else:
-            self.__db = filename + ".db"
-        self.__con = sqlite3.connect(self.__db)
-        self.addTable("default")
-
-    def setTable(self, tableName: str) -> None:
-        """# Function: sql.setTable
-          Sets the currently active table
-        # Inputs:
-          tableName: str - The name of the table to use
-
-        # Returns:
-          None
-
-        # Raises:
-          None"""
-        self.__table = tableName
-
-    def get(self, name: str) -> object or None:
-        """# Function: sql.get
-          Gets the value of a key
-        # Inputs:
-          name: str - The name of the key to retrieve
-
-        # Returns:
-          object or None - If the key exists, return it's value, otherwise, return `None`
-
-        # Raises:
-          AttributeError - If the table is unset"""
-        if not self.__table:
-            raise AttributeError("Attempted to read from unset table")
-        cur = self.__con.execute(
-            f"""SELECT value FROM "{self.__table}" WHERE name = ?""", (name,)
-        )
-        data = cur.fetchone()
-        if data:
-            try:
-                return ast.literal_eval(data[0])
-            except:
-                return data[0]
-        return None
-
-    def set(self, name: str, value: object) -> int:
-        """# Function: sql.set
-          Sets the value of a key
-        # Inputs:
-          name: str - The name of the key to set
-          value: object - The value of the key
-
-        # Returns:
-          int - `1` if the key was created, `2` if it was updated
-
-        # Raises:
-          AttributeError - If the table is unset"""
-        if not self.__table:
-            raise AttributeError("Attempted to write to unset table")
-        if self.get(name):
-            self.__con.execute(
-                f"""UPDATE "{self.__table}" SET value = ? WHERE name = ?""",
-                (str(value), name),
-            )
-            self.__con.commit()
-            return 2
-        else:
-            self.__con.execute(
-                f"""INSERT INTO "{self.__table}" (name, value) VALUES (?, ?)""",
-                (name, str(value)),
-            )
-            self.__con.commit()
-            return 1
-
-    def delete(self, name: str) -> None:
-        """# Function: sql.delete
-          Deletes a key from the table
-        # Inputs:
-          name: str - The name of the key to delete
-
-        # Returns:
-          None
-
-        # Raises:
-          AttributeError - If the table is unset"""
-        if not self.__table:
-            raise AttributeError("Attempted to delete from unset table")
-        if self.get(name):
-            self.__con.execute(
-                f"""DELETE FROM "{self.__table}" WHERE name = ?""", (name,)
-            )
-            self.__con.commit()
-
-    def delete_all(self) -> None:
-        """# Function: sql.delete_all
-          Deletes all keys from the table
-        # Inputs:
-          None
-
-        # Returns:
-          None
-
-        # Raises:
-          AttributeError - If the table is unset"""
-        if not self.__table:
-            raise AttributeError("Attempted to delete from unset table")
-        self.__con.execute(f"""DELETE FROM "{self.__table}" """)
-        self.__con.commit()
-
-    def close(self) -> None:
-        """# Function: sql.close
-          Closes the database connection
-        # Inputs:
-          None
-
-        # Returns:
-          None
-
-        # Raises:
-          None"""
-        self.__con.close()
-        self.__con = None
-        self.__db = None
-        self.__table = None
+sql = fql
 
 
-def remove_prefix(text: str, prefix: str) -> str:
-    """# Function: remove_prefix
+def removePrefix(text: str, prefix: str) -> str:
+    """# Function: removePrefix
     If `prefix` is at the beginning of `text`, return `text` without `prefix`, otherwise return `text`
     # Inputs:
       text: str - The text to remove the prefix from
@@ -800,9 +646,10 @@ def remove_prefix(text: str, prefix: str) -> str:
         return text[len(prefix) :]
     return text
 
+remove_prefix = removePrefix
 
-def remove_suffix(text: str, suffix: str) -> str:
-    """# Function: remove_suffix
+def removeSuffix(text: str, suffix: str) -> str:
+    """# Function: removeSuffix
     If `suffix` is at the end of `text`, return `text` without `suffix`, otherwise return `text`
     # Inputs:
       text: str - The text to remove the suffix from
@@ -816,3 +663,5 @@ def remove_suffix(text: str, suffix: str) -> str:
     if text.endswith(suffix):
         return text[: -len(suffix)]
     return text
+
+remove_suffix = removeSuffix
