@@ -7,15 +7,39 @@ from warnings import warn as ww
 from typing import TypeVar, Type, Optional, List, Any
 from collections.abc import Iterable
 
-def alias(Function):
-  def decorator(f):
-    f.__doc__ = 'This method is an alias of the following method:\n\n' + pydoc.text.document(Function)
-    return f
-  return decorator
 
-__VERSION__ = "1.0.27"
-__NEW__ = "Renames many methods, old names are still avalible for backwards compatiblity however. Also, SQL was moved to it's own package entirely."
+def alias(Function):
+    def decorator(f):
+        f.__doc__ = (
+            "This method is an alias of the following method:\n\n"
+            + pydoc.text.document(Function)
+        )
+        return f
+
+    return decorator
+
+
+__VERSION__ = "1.0.28"
+__NEW__ = "Updates `Color` to flush print by default."
 __LICENSE__ = "MIT"
+
+
+def flushPrint(text: str = ""):
+    """# Function: flushPrint
+      Prints and flushes the specified `text`.
+    # Inputs:
+      text: str - The text to print, defaults to ""
+
+    # Returns:
+      None
+
+    # Raises:
+      None"""
+    print(text, end="", flush=True)
+
+
+flush_print = flushPrint
+
 
 def clear(ascii: bool = False) -> None:
     """# Function: clear
@@ -31,7 +55,8 @@ def clear(ascii: bool = False) -> None:
     if not ascii:
         os.system("clear")
     else:
-        print("\033[H", end="", flush=True)
+        flushPrint("\033[H")
+
 
 @alias(os.system)
 def cmd(command: str) -> int:
@@ -66,6 +91,7 @@ def randint(low: int = 0, high: int = 10) -> int:
     except:
         out = r.randint(high, low)
     return out
+
 
 @alias(sys.exit)
 def e(code: object = 0) -> None:
@@ -102,7 +128,7 @@ def gp(
     while got < keycount:
         key = fkey.getchars(1, chars)
         keys = f"{keys}{key}"
-        print(key, end="", flush=True)
+        flushPrint(key)
         got += 1
     print()
     if not bytes:
@@ -132,7 +158,7 @@ def gh(
     while got < keycount:
         key = fkey.getchars(1, chars)
         keys = f"{keys}{key}"
-        print("*", end="", flush=True)
+        flushPrint("*")
         got += 1
     print()
     if not bytes:
@@ -159,19 +185,20 @@ def printt(text: str, delay: float = 0.1, newline: bool = True) -> None:
     # Change terminal settings to prevent any interruptions
     tty.setcbreak(sys.stdin)
     for char in text:
-        print(char, end="", flush=True)
+        flushPrint(char)
         time.sleep(delay)
     if newline:
         print()
     # Restore the original terminal settings
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, original_terminal_settings)
 
+
 @alias(time.sleep)
 def sleep(seconds: float = 0.5) -> None:
     """# Function: sleep
       Calls `time.sleep(seconds)`
     # Inputs:
-      seconds: float - How long to sleep for (in seconds), defaults to 0.5
+      seconds: float - How long to sleep for, defaults to 0.5
 
     # Returns:
       None
@@ -179,6 +206,7 @@ def sleep(seconds: float = 0.5) -> None:
     # Raises:
       None"""
     time.sleep(seconds)
+
 
 @alias(r.seed)
 def rseed(seed: Any = None, version: int = 2) -> None:
@@ -199,6 +227,7 @@ def rseed(seed: Any = None, version: int = 2) -> None:
 setattr(Iterable, "__class_getitem__", lambda x: None)
 T = TypeVar("T")
 
+
 def robj(iterable: Iterable[T]) -> T:
     """# Function: robj
       Returns a random object from the provided iterable
@@ -213,7 +242,7 @@ def robj(iterable: Iterable[T]) -> T:
     return r.choice(iterable)
 
 
-def Color(r: int = 0, g: int = 0, b: int = 0, bcolor: bool = False) -> None or str:
+def Color(r: int = 0, g: int = 0, b: int = 0, bcolor: bool = False, flush: bool = True) -> None or str:
     """# Function: Color
       Set the text to a specific color.
     # Inputs:
@@ -221,6 +250,7 @@ def Color(r: int = 0, g: int = 0, b: int = 0, bcolor: bool = False) -> None or s
       g: int - The green value, range of 0-255, defaults to 0
       b: int - The blue value, range of 0-255, defaults to 0
       bcolor: bool - Wether to return the color as a str, defaults to False
+      fulsh: bool - Wether to flushPrint the color, defaults to True
 
     # Returns:
       None or str - The color code if `bcolor` is True. Otherwise, returns nothing
@@ -241,6 +271,9 @@ def Color(r: int = 0, g: int = 0, b: int = 0, bcolor: bool = False) -> None or s
         b = 255
     if bcolor == True:
         return f"\033[38;2;{r};{g};{b}m"
+    elif flush:
+        flushPrint("\003[0m")
+        flushPrint(f"\033[38;2;{r};{g};{b}m")
     else:
         print("\003[0m")
         print(f"\033[38;2;{r};{g};{b}m")
@@ -427,9 +460,7 @@ def input(prompt: str = "", cast: Type = str, badCastMessage: str = "") -> cast:
     return ret
 
 
-def replitInput(
-    prompt: str = "", cast: Type = str, badCastMessage: str = ""
-) -> cast:
+def replitInput(prompt: str = "", cast: Type = str, badCastMessage: str = "") -> cast:
     """# Function: replitInput
       Displays your `prompt` with the replit cursor on the next line, supports casting by default, with handling!
     # Inputs:
@@ -446,7 +477,9 @@ def replitInput(
         print(prompt)
     return input(f"{replitCursor} ", cast, badCastMessage)
 
+
 replit_input = replitInput
+
 
 def cprint(text: str = "") -> None:
     """# Function: cprint
@@ -472,21 +505,6 @@ def cprint(text: str = "") -> None:
     color = colordict[robj(colornames)]
     print(f"{color}{text}")
 
-
-def flushPrint(text: str = ""):
-    """# Function: flushPrint
-      Prints and flushes the specified `text`.
-    # Inputs:
-      text: str - The text to print, defaults to ""
-
-    # Returns:
-      None
-
-    # Raises:
-      None"""
-    print(text, end="", flush=True)
-
-flush_print = flushPrint
 
 class ProgramWarnings(UserWarning):
     """Warnings Raised for user defined Warnings in `console.warn` by default."""
@@ -646,7 +664,9 @@ def removePrefix(text: str, prefix: str) -> str:
         return text[len(prefix) :]
     return text
 
+
 remove_prefix = removePrefix
+
 
 def removeSuffix(text: str, suffix: str) -> str:
     """# Function: removeSuffix
@@ -663,5 +683,6 @@ def removeSuffix(text: str, suffix: str) -> str:
     if text.endswith(suffix):
         return text[: -len(suffix)]
     return text
+
 
 remove_suffix = removeSuffix

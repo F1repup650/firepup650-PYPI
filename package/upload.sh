@@ -1,5 +1,5 @@
 echo "Formatting..."
-black . > dev/null
+black . > /dev/null
 echo "Building..."
 poetry build > /dev/null
 echo "Uploading..."
