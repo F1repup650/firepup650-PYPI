@@ -1,6 +1,8 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 #### Change log:
+###### v.1.0.29:
+Provide a mypy stub file
 ###### v.1.0.28:
 Updates `Color` to flush print by default.
 ###### v.1.0.27:

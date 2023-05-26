@@ -242,7 +242,9 @@ def robj(iterable: Iterable[T]) -> T:
     return r.choice(iterable)
 
 
-def Color(r: int = 0, g: int = 0, b: int = 0, bcolor: bool = False, flush: bool = True) -> None or str:
+def Color(
+    r: int = 0, g: int = 0, b: int = 0, bcolor: bool = False, flush: bool = True
+) -> None or str:
     """# Function: Color
       Set the text to a specific color.
     # Inputs:
@@ -645,7 +647,7 @@ class console:
         clear(ascii)
 
 
-sql = fql
+sql = fql.sql
 
 
 def removePrefix(text: str, prefix: str) -> str:
