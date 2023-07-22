@@ -19,8 +19,8 @@ def alias(Function):
     return decorator
 
 
-__VERSION__ = "1.0.28"
-__NEW__ = "Updates `Color` to flush print by default."
+__VERSION__ = "1.0.31"
+__NEW__ = "Adds the isMath function provided by @python660 on Replit Ask"
 __LICENSE__ = "MIT"
 
 
@@ -688,3 +688,17 @@ def removeSuffix(text: str, suffix: str) -> str:
 
 
 remove_suffix = removeSuffix
+
+
+def isMath(equation: str) -> bool:
+    """# Function: isMath
+    Checks whether a given `equation` is actually an equation or not | Function provided by @python660 on Replit Ask
+    # Inputs:
+      equation: str - The string to check to see if it is an equation
+
+    # Returns:
+      bool - Whether the given equation is a math problem
+
+    # Raises:
+      None"""
+    return all([True if char in "1234567890*/+-.^%!" else False for char in equation])

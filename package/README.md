@@ -1,6 +1,8 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 #### Change log:
+###### v.1.0.31:
+Adds the `isMath` function provided by @python660 on Replit Ask
 ###### v.1.0.30:
 Fix all mypy stub issues
 ###### v.1.0.29:
