@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "firepup650-source"
+version = "1.0.2"
+description = "Replit source"
+authors = ["Firepup650"]
+
+[tool.poetry.dependencies]
+python = "^3.10.11"
+fkeycapture = "^1.2.3"
+black = "^23.3.0"
+keyrings-alt = "^4.2.0"
+fpsql = "^1.0.1"
+mypy = "^1.3.0"
+twine = "^4.0.2"
+
+[tool.poetry.dev-dependencies]
+
+[tool.black]
+exclude = ".pythonlibs"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
