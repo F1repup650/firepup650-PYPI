@@ -1,7 +1,7 @@
-.cache/*
-.cache/**
 __pycache__/**
 .upm
 venv/**
 **/__pycache__/**
 .pythonlibs/**
+.config/**
+replit*txt
