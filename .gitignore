@@ -5,3 +5,4 @@ venv/**
 .pythonlibs/**
 .config/**
 replit*txt
+.replit
