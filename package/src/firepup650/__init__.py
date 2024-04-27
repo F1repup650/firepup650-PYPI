@@ -1,4 +1,5 @@
 """Firepup650's PYPI Package"""
+
 import os, sys, termios, tty, time, sqlite3, ast, pydoc  # type: ignore[import]
 import random as r
 import fkeycapture as fkey
