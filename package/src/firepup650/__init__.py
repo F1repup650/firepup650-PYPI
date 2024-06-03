@@ -880,6 +880,24 @@ def menu(options: dict, title: str = "") -> object:
     UP = [fkey.KEYS["UP"], b"w", b"a", fkey.KEYS["LEFT"]]
     DOWN = [fkey.KEYS["DOWN"], b"s", b"d", fkey.KEYS["RIGHT"]]
     indicatorSize = len(str(limit)) * 2 + 1
+    indicatorOffset = 999
+    match indicatorSize:
+        case 3:  # 1-9 options
+            indicatorOffset = 1
+        case 5:  # 10-99 options
+            indicatorOffset = 0
+        case 7:  # 100-999 options
+            indicatorOffset = -1
+        case 9:  # 1000-9999 options
+            indicatorOffset = -2
+        case 11:  # 10000-99999 options
+            indicatorOffset = -3
+        case 13:  # 100000-999999 options
+            indicatorOffset = -4
+        case _:
+            raise ValueError(
+                f"You have more menu options than was ever expected to be used, please notify the package author to add a offset mappting for an indicator size of {indicatorSize}."
+            )
     menuWidth = max(
         [max([len(choice) for choice in choices]) + 4, indicatorSize * 2 + 7]
     )
@@ -888,7 +906,7 @@ def menu(options: dict, title: str = "") -> object:
         flushPrint(
             (title + "\n" if title else "")
             + f"╔{'═'*menuWidth}╗\n"
-            + f"║  {f'{current+1}'}{' '*(len(str(limit))-len(str(current+1)))}/{limit}{' '*int(menuWidth/2-indicatorSize-2.5)}↑{' '*int((menuWidth-indicatorSize)/2-(0 if indicatorSize!=3 else 1)+(1 if menuWidth%2==0 else 0))}  ║\n"
+            + f"║  {f'{current+1}'}{' '*(len(str(limit))-len(str(current+1)))}/{limit}{' '*int(menuWidth/2-indicatorSize-2.5)}↑{' '*int((menuWidth-indicatorSize)/2-indicatorOffset+(1 if menuWidth%2==0 else 0))}  ║\n"
             + f"║←{' '*int(((menuWidth-len(choices[current]))/2)-1)}{choices[current]}{' '*int((menuWidth-len(choices[current]))/2-.5)}→║\n"
             + f"║{' '*int((menuWidth-1)/2)}↓{' '*int((menuWidth-1)/2+.5)}║\n"
             + f"╚{'═'*menuWidth}╝\n"

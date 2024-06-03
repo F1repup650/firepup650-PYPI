@@ -1,7 +1,9 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 ### Change log:
-#### v.1.0.37
+#### v.1.0.38:
+Mappings for much larger menu sizes, hopefully no one should ever hit that limit.
+#### v.1.0.37:
 Upgrades to gp and gh, they now function as stand-alone prompts, and allow deletion of characters as well (`allowDelete` must be set to `True`)
 #### v.1.0.36:
 Fix an old annoying bug with menus having an incorrect size calculation if the width of the menu was an even number
