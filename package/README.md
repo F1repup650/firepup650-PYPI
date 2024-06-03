@@ -1,6 +1,8 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 ### Change log:
+#### v.1.0.39:
+Add offset mappings for exceeding 1 Million options, new limit is 10 Million options
 #### v.1.0.38:
 Mappings for much larger menu sizes, hopefully no one should ever hit that limit.
 #### v.1.0.37:

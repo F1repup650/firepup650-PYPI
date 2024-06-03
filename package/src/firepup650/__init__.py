@@ -882,18 +882,20 @@ def menu(options: dict, title: str = "") -> object:
     indicatorSize = len(str(limit)) * 2 + 1
     indicatorOffset = 999
     match indicatorSize:
-        case 3:  # 1-9 options
+        case 3:  # 1-9 options (Ten rolls over)
             indicatorOffset = 1
-        case 5:  # 10-99 options
+        case 5:  # 10-99 options (One Hundered rolls over)
             indicatorOffset = 0
-        case 7:  # 100-999 options
+        case 7:  # 100-999 options (One Thousand rolls over)
             indicatorOffset = -1
-        case 9:  # 1000-9999 options
+        case 9:  # 1000-9999 options (Ten Thousand rolls over)
             indicatorOffset = -2
-        case 11:  # 10000-99999 options
+        case 11:  # 10000-99999 options (One Hundred Thousand rolls over)
             indicatorOffset = -3
-        case 13:  # 100000-999999 options
+        case 13:  # 100000-999999 options (One Million rolls over)
             indicatorOffset = -4
+        case 15:  # 1000000-9999999 options (Ten Million rolls over)
+            indicatorOffset = -5
         case _:
             raise ValueError(
                 f"You have more menu options than was ever expected to be used, please notify the package author to add a offset mappting for an indicator size of {indicatorSize}."
