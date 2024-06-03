@@ -863,7 +863,7 @@ def menu(options: dict, title: str = "") -> object:
         flushPrint(
             (title + "\n" if title else "")
             + f"╔{'═'*menuWidth}╗\n"
-            + f"║  {f'{current+1}'}{' '*(len(str(limit))-len(str(current+1)))}/{limit}{' '*int(menuWidth/2-indicatorSize-2.5)}↑{' '*int((menuWidth-indicatorSize)/2-(0 if indicatorSize!=3 else 1))}  ║\n"
+            + f"║  {f'{current+1}'}{' '*(len(str(limit))-len(str(current+1)))}/{limit}{' '*int(menuWidth/2-indicatorSize-2.5)}↑{' '*int((menuWidth-indicatorSize)/2-(0 if indicatorSize!=3 else 1)+(1 if menuWidth%2==0 else 0))}  ║\n"
             + f"║←{' '*int(((menuWidth-len(choices[current]))/2)-1)}{choices[current]}{' '*int((menuWidth-len(choices[current]))/2-.5)}→║\n"
             + f"║{' '*int((menuWidth-1)/2)}↓{' '*int((menuWidth-1)/2+.5)}║\n"
             + f"╚{'═'*menuWidth}╝\n"
