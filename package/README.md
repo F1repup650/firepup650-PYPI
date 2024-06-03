@@ -1,6 +1,8 @@
 # Firepup650
 Package containing various shorthand things I use, and a few imports I almost always use
 ### Change log:
+#### v.1.0.36:
+Fix an old annoying bug with menus having an incorrect size calculation if the width of the menu was an even number
 #### v.1.0.35:
 Adds a few missing docstrings and fixes a bug with the menu function
 #### v.1.0.34:
