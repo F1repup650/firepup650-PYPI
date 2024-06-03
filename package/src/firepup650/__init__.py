@@ -896,6 +896,14 @@ def menu(options: dict, title: str = "") -> object:
             indicatorOffset = -4
         case 15:  # 1000000-9999999 options (Ten Million rolls over)
             indicatorOffset = -5
+        case 17:  # 10000000-99999999 options (One Hundred Million rolls over)
+            indicatorOffset = -6
+        case 19:  # 100000000-999999999 options (One Billion rolls over)
+            indicatorOffset = -7
+        case (
+            21
+        ):  # 1000000000=9999999999 options (Ten Billion rolls over) (This exceeds integer limits, so if we get over this I've got no clue how.)
+            indicatorOffset = -8
         case _:
             raise ValueError(
                 f"You have more menu options than was ever expected to be used, please notify the package author to add a offset mappting for an indicator size of {indicatorSize}."
