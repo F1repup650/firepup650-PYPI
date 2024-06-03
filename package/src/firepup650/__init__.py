@@ -118,7 +118,11 @@ def e(code: Union[str, int, None] = None) -> NoReturn:
 
 
 def gp(
-    keycount: int = 1, chars: list = ["1", "2"], bytes: bool = False
+    keycount: int = 1,
+    chars: list = ["1", "2"],
+    bytes: bool = False,
+    allowDelete: bool = False,
+    filler: str = "-",
 ) -> Union[str, bytes]:
     """# Function: gp
       Get keys and print them.
@@ -126,6 +130,8 @@ def gp(
       keycount: int - Number of keys to get, defaults to 1
       chars: list - List of keys to accept, defaults to ["1", "2"]
       bytes: bool - Wether to return the kyes as bytes, defaults to False
+      allowDelete: bool - Wether to allow deleting chars, defaults to False
+      filler: str - The character to use as filler when waiting on more chars, defaults to "-"
 
     # Returns:
       Union[str, bytes] - Keys pressed
@@ -133,21 +139,32 @@ def gp(
     # Raises:
       None"""
     got = 0
-    keys = ""
-    while got < keycount:
-        key = fkey.getchars(1, chars)  # type: str #type: ignore
-        keys = f"{keys}{key}"
-        flushPrint(key)
+    keys = []
+    if allowDelete:
+        chars.append(fkey.KEYS["BACKSPACE"].decode())
+    flushPrint(filler * keycount)
+    while len(keys) < keycount:
+        key = fkey.getchars(1, chars, True)  # type: bytes #type: ignore
+        if not allowDelete or key != fkey.KEYS["BACKSPACE"]:
+            keys.append(key.decode())
+        elif len(keys):
+            keys.pop()
+        flushPrint(f"\033[{keycount}D{''.join(keys)}{filler*(keycount-len(keys))}")
         got += 1
     print()
     if not bytes:
-        return keys
+        return "".join(keys)
     else:
-        return keys.encode()
+        return ("".join(keys)).encode()
 
 
 def gh(
-    keycount: int = 1, chars: list = ["1", "2"], char: str = "*", bytes: bool = False
+    keycount: int = 1,
+    chars: list = ["1", "2"],
+    char: str = "*",
+    bytes: bool = False,
+    allowDelete: bool = False,
+    filler: str = "-",
 ) -> Union[str, bytes]:
     """# Function: gh
       Get keys and print `char` in their place.
@@ -156,6 +173,8 @@ def gh(
       chars: list - List of keys to accept, defaults to ["1", "2"]
       char: str - Character to use to obfuscate the keys, defaults to *
       bytes: bool - Wether to return the kyes as bytes, defaults to False
+      allowDelete: bool - Wether to allow deleting chars, defaults to False
+      filler: str - The character to use as filler when waiting on more chars, defaults to "-"
 
     # Returns:
       Union[str, bytes] - Keys pressed
@@ -163,17 +182,23 @@ def gh(
     # Raises:
       None"""
     got = 0
-    keys = ""
-    while got < keycount:
-        key = fkey.getchars(1, chars)  # type: str#type: ignore
-        keys = f"{keys}{key}"
-        flushPrint("*")
+    keys = []
+    if allowDelete:
+        chars.append(fkey.KEYS["BACKSPACE"].decode())
+    flushPrint(filler * keycount)
+    while len(keys) < keycount:
+        key = fkey.getchars(1, chars, True)  # type: bytes #type: ignore
+        if not allowDelete or key != fkey.KEYS["BACKSPACE"]:
+            keys.append(key.decode())
+        elif len(keys):
+            keys.pop()
+        flushPrint(f"\033[{keycount}D{char*len(keys)}{filler*(keycount-len(keys))}")
         got += 1
     print()
     if not bytes:
-        return keys
+        return "".join(keys)
     else:
-        return keys.encode()
+        return ("".join(keys)).encode()
 
 
 def printt(text: str, delay: float = 0.1, newline: bool = True) -> None:
